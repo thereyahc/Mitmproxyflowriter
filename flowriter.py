@@ -7,13 +7,12 @@ import urllib.request
 from urllib.parse import urlparse
 from pathlib import Path
 import hashlib
+import pprint
 
-class parsetraffic:
+class EditableCache:
 
     def response(self, flow: http.HTTPFlow) -> None:
         if isinstance(flow, http.HTTPFlow):
-            secfile = open("trafficsections.txt","a")
-            secfile.write(flow.get_state())
             if flow.response.headers["Content-Type"].find("application/octet-stream") != -1:
                 url = flow.request.pretty_url
                 filename = urlparse(url)
@@ -49,4 +48,4 @@ class parsetraffic:
             hf = open("hashes.txt","a")
             hf.writelines("{} : {} \n".format(fname,file_hash.hexdigest()))
 
-addons = [parsetraffic()]
+addons = [EditableCache()]
