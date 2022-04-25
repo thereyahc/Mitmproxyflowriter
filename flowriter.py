@@ -7,6 +7,7 @@ import urllib.request
 from urllib.parse import urlparse
 from pathlib import Path
 import hashlib
+from mitmproxy.net.http.http1.assemble import assemble_request
 
 class EditableCache:
 
@@ -41,7 +42,7 @@ class EditableCache:
                 self.hashcal(filename2)
             with open("trafficsections","ab") as tf:
                 tf.write('{}\n'.format(flow.request.pretty_url))
-                tf.write(flow.request.headers)
+                tf.write(assemble_request(flow.request).decode('utf-8'))
                 for key, value in flow.response.headers.items():
                     tf.write('{}: {}\n'.format(key, value).encode())
     def hashcal(self,fname):
