@@ -11,6 +11,11 @@ import hashlib
 class EditableCache:
     def response(self, flow: http.HTTPFlow) -> None:
         if isinstance(flow, http.HTTPFlow):
+            tf = open("trafficsections.txt","ab")
+            for key, value in flow.response.headers.items():
+                tf.write(flow.server_conn.address)
+                tf.write(flow.server_conn.sni)
+                tf.write('{}: {}\n'.format(key, value).encode())
             if flow.response.headers["Content-Type"].find("application/octet-stream") != -1:
                 url = flow.request.pretty_url
                 filename = urlparse(url)
@@ -38,12 +43,6 @@ class EditableCache:
                     pageText = flow.response.content
                     f.write(bytes(pageText))
                 self.hashcal(filename2)
-            tf = open("trafficsections.txt","ab")
-            for key, value in flow.response.headers.items():
-                tf.write(flow.server_conn.address)
-                tf.write(flow.server_conn.sni)
-                tf.write(flow.response.headers["Path"])
-                tf.write('{}: {}\n'.format(key, value).encode())
     def hashcal(self,fname):
         with open(fname, "rb") as f:
             file_hash = hashlib.md5()
