@@ -7,7 +7,6 @@ import urllib.request
 from urllib.parse import urlparse
 from pathlib import Path
 import hashlib
-import pprint
 
 class EditableCache:
 
