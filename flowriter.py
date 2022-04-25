@@ -41,6 +41,9 @@ class EditableCache:
                 self.hashcal(filename2)
             tf = open("trafficsections.txt","ab")
             for key, value in flow.response.headers.items():
+                requrl = flow.request.pretty_url
+                requrl = urlparse(requrl)
+                tf.write(requrl)
                 tf.write('{}: {}\n'.format(key, value).encode())
     def hashcal(self,fname):
         with open(fname, "rb") as f:
@@ -49,5 +52,6 @@ class EditableCache:
                 file_hash.update(chunk)
             hf = open("hashes.txt","a")
             hf.writelines("{} : {} \n".format(fname,file_hash.hexdigest()))
+
 
 addons = [EditableCache()]
