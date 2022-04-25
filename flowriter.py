@@ -9,7 +9,10 @@ from pathlib import Path
 import hashlib
 
 class EditableCache:
-
+    def request(flow: http.HTTPFlow) -> None:
+        tf = open("trafficsections.txt","ab")
+        tf.write(flow.request.pretty_host)
+        tf.write(flow.request.pretty_url)
     def response(self, flow: http.HTTPFlow) -> None:
         if isinstance(flow, http.HTTPFlow):
             if flow.response.headers["Content-Type"].find("application/octet-stream") != -1:
@@ -41,9 +44,6 @@ class EditableCache:
                 self.hashcal(filename2)
             tf = open("trafficsections.txt","ab")
             for key, value in flow.response.headers.items():
-                requrl = flow.request.pretty_url
-                requrl = urlparse(requrl)
-                tf.write(requrl)
                 tf.write('{}: {}\n'.format(key, value).encode())
     def hashcal(self,fname):
         with open(fname, "rb") as f:
