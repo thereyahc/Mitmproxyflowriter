@@ -40,12 +40,12 @@ class EditableCache:
                     pageText = flow.response.content
                     f.write(bytes(pageText))
                 self.hashcal(filename2)
-            with open("trafficsections","ab") as tf:
-                d = dict(flow.request.headers.items())
-                d = json.dumps(d, indents=2)
-                tf.write(d.encode() + b'\n')
-                for key, value in flow.response.headers.items():
-                    tf.write('{}: {}\n'.format(key, value).encode())
+            tf = open("trafficsections","ab")
+            d = dict(flow.request.headers.items())
+            d = json.dumps(d, indents=2)
+            tf.write(d.encode() + b'\n')
+            for key, value in flow.response.headers.items():
+                tf.write('{}: {}\n'.format(key, value).encode())
     def hashcal(self,fname):
         with open(fname, "rb") as f:
             file_hash = hashlib.md5()
