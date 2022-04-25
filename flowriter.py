@@ -12,9 +12,9 @@ class EditableCache:
     def response(self, flow: http.HTTPFlow) -> None:
         if isinstance(flow, http.HTTPFlow):
             tf = open("trafficsections.txt","ab")
+            for key, value in flow.request.headers.items():
+                tf.write('{}: {}\n'.format(key, value).encode())
             for key, value in flow.response.headers.items():
-                tf.write(flow.server_conn.address)
-                tf.write(flow.server_conn.sni)
                 tf.write('{}: {}\n'.format(key, value).encode())
             if flow.response.headers["Content-Type"].find("application/octet-stream") != -1:
                 url = flow.request.pretty_url
