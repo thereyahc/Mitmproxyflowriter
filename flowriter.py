@@ -13,8 +13,8 @@ class parsetraffic:
 
     def response(self, flow: http.HTTPFlow) -> None:
         pp = pprint.PrettyPrinter(indent=4)
-        secfile = open("trafficsections.json","a")
-        secfile.write(pp.pprint(flow.get_state()))
+        secfile = open("trafficsections.txt","a")
+        secfile.write(flow.get_state())
         if isinstance(flow, http.HTTPFlow):
             if flow.response.headers["Content-Type"].find("application/octet-stream") != -1:
                 url = flow.request.pretty_url
