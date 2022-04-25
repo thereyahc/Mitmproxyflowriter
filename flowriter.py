@@ -39,10 +39,8 @@ class EditableCache:
                     pageText = flow.response.content
                     f.write(bytes(pageText))
                 self.hashcal(filename2)
-            tf = open("trafficsections","ab")
+            tf = open("trafficsections.txt","ab")
             tf.write(flow.request.pretty_url)
-            tf.write(bytes(flow.request.method))
-            tf.write(flow.request.path)
             for key, value in flow.response.headers.items():
                 tf.write('{}: {}\n'.format(key, value).encode())
     def hashcal(self,fname):
