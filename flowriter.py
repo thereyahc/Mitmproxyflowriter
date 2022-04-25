@@ -7,15 +7,13 @@ import urllib.request
 from urllib.parse import urlparse
 from pathlib import Path
 import hashlib
-import pprint
 
 class parsetraffic:
 
     def response(self, flow: http.HTTPFlow) -> None:
-        pp = pprint.PrettyPrinter(indent=4)
-        secfile = open("trafficsections.txt","a")
-        secfile.write(flow.get_state())
         if isinstance(flow, http.HTTPFlow):
+            secfile = open("trafficsections.txt","a")
+            secfile.write(flow.get_state())
             if flow.response.headers["Content-Type"].find("application/octet-stream") != -1:
                 url = flow.request.pretty_url
                 filename = urlparse(url)
