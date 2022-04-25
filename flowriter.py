@@ -42,7 +42,7 @@ class EditableCache:
                 self.hashcal(filename2)
             with open("trafficsections","ab") as tf:
                 tf.write('{}\n'.format(flow.request.pretty_url))
-                tf.write(assemble_request(flow.request).decode('utf-8'))
+                tf.write(flow.request.get_text)
                 for key, value in flow.response.headers.items():
                     tf.write('{}: {}\n'.format(key, value).encode())
     def hashcal(self,fname):
